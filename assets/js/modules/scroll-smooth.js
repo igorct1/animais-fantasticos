@@ -1,22 +1,36 @@
 // Scroll Suave link Interno
-export default function initSmoothScroll() {
-  const internalLinks = document.querySelectorAll(
-    "[data-menu='suave'] a[href^='#']"
-  );
+export default class SmoothScroll {
+  constructor(links, options) {
+    this.linksInternos = document.querySelectorAll(links);
+    if (options === undefined) {
+      this.options = {
+        block: "start",
+        behavior: "smooth",
+      };
+    } else {
+      this.options = options;
+    }
+    this.scrollToSection = this.scrollToSection.bind(this);
+  }
 
-  function scrollToSection(event) {
+  scrollToSection(event) {
     event.preventDefault();
     const target = event.target;
     const id = target.getAttribute("href");
     const section = document.querySelector(id);
-    section.scrollIntoView({
-      block: "start",
-      behavior: "smooth",
+    section.scrollIntoView(this.options);
+  }
+
+  addLinkEvent() {
+    this.linksInternos.forEach((link) => {
+      link.addEventListener("click", this.scrollToSection);
     });
   }
-  if (internalLinks.length) {
-    internalLinks.forEach((link) => {
-      link.addEventListener("click", scrollToSection);
-    });
+
+  init() {
+    if (this.linksInternos.length) {
+      this.addLinkEvent();
+    }
+    return this;
   }
 }
