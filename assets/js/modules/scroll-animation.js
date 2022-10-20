@@ -22,7 +22,6 @@ export default class ScrollAnimation {
 
   // verifica a distancia em cada objeto em relação ao scroll do site
   checkDistance() {
-    console.log("ativou");
     this.distance.forEach((section) => {
       if (window.pageYOffset > section.offset) {
         section.element.classList.add("active");
